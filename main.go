@@ -7,6 +7,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -91,8 +92,14 @@ func main() {
 
 	tlsNP := make(map[string]func(*http.Server, *tls.Conn, http.Handler))
 
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		port = "8080"
+	}
+
 	server := &http.Server{
-		Addr:         ":8080",
+		Addr:         ":" + port,
 		Handler:      handler,
 		TLSNextProto: tlsNP,
 	}
